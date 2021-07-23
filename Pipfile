@@ -6,13 +6,13 @@ verify_ssl = true
 [packages]
 pyyaml = "*"
 click = "*"
-blank = {editable = true,path = "."}
 
 [dev-packages]
-blank = {editable = true,path = "."}
 ipython = "*"
 ipdb = "*"
 pytest = "*"
+atomicwrites = "*"
+blank = {editable = true, path = "."}
 
 [requires]
 python_version = "3.9"
