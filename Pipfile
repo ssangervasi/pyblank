@@ -1,0 +1,18 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[packages]
+pyyaml = "*"
+click = "*"
+this = {editable = true,path = "."}
+
+[dev-packages]
+this = {editable = true,path = "."}
+ipython = "*"
+ipdb = "*"
+pytest = "*"
+
+[requires]
+python_version = "3.9"
