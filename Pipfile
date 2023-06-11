@@ -12,6 +12,7 @@ ipython = "*"
 ipdb = "*"
 pytest = "*"
 atomicwrites = "*"
+
 blank = {editable = true, path = "."}
 
 [requires]
