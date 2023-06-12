@@ -6,5 +6,4 @@ import pathlib
 
 def main():
     print("Blank")
-    return 'Blank'
-
+    return "Blank"
