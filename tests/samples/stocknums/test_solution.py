@@ -1,5 +1,4 @@
-from samples.adv2021.day01.solution import solve_part_one, solve_part_two, parse_input
-from samples.adv2021.utils import read_input_lines
+from samples.stocknums.solution import solve
 
 
 """
@@ -49,12 +48,12 @@ MIN_EXPECTED = 36
 
 
 def test_solve_part_one_example():
-    solution = solve_part_one(EXAMPLE_INPUT)
+    result = solve(*EXAMPLE_INPUT)
     print(
         f"""
 Stock nums
 ----------
-{solution}
+{result}
 """
     )
-    assert solution > MIN_EXPECTED
+    assert result > MIN_EXPECTED

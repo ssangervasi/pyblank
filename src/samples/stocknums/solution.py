@@ -1,38 +1,91 @@
 import itertools
 import typing as t
+from dataclasses import dataclass, field
 
 
-def parse_input(input_lines: list[str]) -> list[int]:
-    return [int(line.strip()) for line in input_lines if len(line) > 0]
+def solve(max_trades: int, prices: list[int]) -> int:
+    grid: dict[Vec, Trade] = dict()
+
+    def get_trade(r: int, c: int) -> t.Optional[Trade]:
+        return grid.get((r, c), None)
+
+    for (row, col) in itertools.product(range(len(prices)), range(len(prices))):
+        current_buy_price = prices[row]
+        current_sell_price = prices[col]
+
+        left = get_trade(row, col - 1)
+        min_buy_price = prices[row]
+        buy_index = row
+
+        if left is not None:
+            if left.min_buy_price < min_buy_price:
+                min_buy_price = left.min_buy_price
+                buy_index = left.buy_index
+
+        up = get_trade(row - 1, col)
+        max_sell_price = prices[row]
+        sell_index = row
+
+        if up is not None:
+            if up.max_sell_price < max_sell_price:
+                max_sell_price = up.max_sell_price
+                sell_index = up.sell_index
+
+        ##
+        # What if I BOUGHT here instead of earlier?
+
+        earlier_buy = get_trade(row, col - 1)
+        
+
+        # In order to buy, I can't have already bought
 
 
-def solve_part_one(input_nums: t.Union[list[int], list[float]]) -> int:
-    nums_iter = iter(input_nums)
-    prev = next(nums_iter, None)
 
-    if prev is None:
-        return 0
-
-    increases = 0
-
-    for n in nums_iter:
-        if prev < n:
-            increases += 1
-
-        prev = n
-
-    return increases
+        ##
+        # What if I SOLD here instead of earlier?
 
 
-def solve_part_two(input_nums: list[int]) -> int:
-    target_window_size = 3
-    window_averages = [
-        sum(window) / target_window_size
-        for (left_edge) in range(len(input_nums))
-        if (
-            (window := input_nums[left_edge : (left_edge + target_window_size)])
-            and len(window) == target_window_size
+        grid[(row, col)] = Trade(
+            min_buy_price=min_buy_price,
+            max_sell_price=max_sell_price,
+            buy_index,
+            sell_index,
+            count=0,
+            profit=0,
         )
-    ]
 
-    return solve_part_one(window_averages)
+    return (
+        0
+        if (final_trade := get_trade(len(prices) - 1, len(prices) - 1)) is None
+        else final_trade.profit
+    )
+
+
+Vec = tuple[int, int]
+
+
+@dataclass
+class Trade:
+    min_buy_price: int
+    max_sell_price: int
+    buy_index: int
+    sell_index: int
+    count = 0
+    profit = 0
+
+
+# if buy_index is None:
+#     buy_index = i
+
+# elif sell_index is None:
+#     sell_index = i
+
+# else:
+#     buy_at = prices[buy_index]
+#     sell_at = prices[sell_index]
+#     trades.append(
+#         sell_at - buy_at
+#     )
+
+#     buy_index = None
+#     sell_index = None
